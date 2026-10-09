@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#101827">
+<title>课堂同传 · 快速版</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#172033;background:#f4f6fa}*{box-sizing:border-box}body{margin:0}header{background:#101827;color:white;padding:19px 16px}header h1{margin:0 0 4px;font-size:22px}header p{margin:0;color:#c7d2e4;font-size:13px}.wrap{max-width:960px;margin:auto;padding:12px;display:grid;gap:12px}.card{background:white;border:1px solid #e0e5ee;border-radius:16px;padding:14px;box-shadow:0 3px 12px #17203308}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.row>*{flex:1}.status{font-size:13px;color:#5e6b80;line-height:1.5}.lamp{display:inline-block;width:9px;height:9px;border-radius:50%;background:#98a2b3;margin-right:7px}.lamp.on{background:#14a66a;box-shadow:0 0 0 4px #14a66a20}button,select,input,textarea{font:inherit}button{border:0;border-radius:11px;padding:12px 13px;font-weight:650;cursor:pointer;background:#e9edf5;color:#172033}button.primary{background:#2459d6;color:white}button.stop{background:#ffe8e8;color:#9b1c1c}button:disabled{opacity:.45;cursor:not-allowed}label{font-size:13px;color:#5e6b80;display:block;margin-bottom:6px}select,input,textarea{width:100%;border:1px solid #d7deea;border-radius:10px;padding:10px;background:#fff;color:#172033}textarea{resize:vertical;min-height:76px}.title{font-weight:750;margin-bottom:10px}.hint{font-size:12px;color:#6c788b;line-height:1.55}.live{font-size:17px;line-height:1.5;color:#4b5870;min-height:28px;white-space:pre-wrap;overflow-wrap:anywhere}.source{font-size:14px;color:#657087;white-space:pre-wrap;overflow-wrap:anywhere}.translation{font-size:22px;line-height:1.5;font-weight:680;white-space:pre-wrap;overflow-wrap:anywhere}.entry{padding:12px 0;border-top:1px solid #edf0f5}.entry:first-child{border-top:0}.entry .translation{font-size:18px}.pill{display:inline-block;border-radius:99px;padding:4px 9px;background:#eef3ff;color:#244ca4;font-size:12px}.badge{font-size:12px;background:#eef8f2;color:#187347;border-radius:99px;padding:5px 9px}.check{display:flex;align-items:center;gap:8px;color:#172033!important;margin:8px 0}.check input{width:auto}.foot{font-size:12px;color:#718096;line-height:1.6;padding:2px 4px 20px}.grid2{display:grid;gap:12px}.empty{color:#6c788b;font-size:13px;padding:10px 0}@media(min-width:780px){.wrap{grid-template-columns:1fr 1fr}.full{grid-column:1/-1}.grid2{grid-template-columns:1fr 1fr}}
+</style></head>
+<body>
+<header><h1>课堂同声传译 · 快速版</h1><p>英语 → 中文　|　先出短句　|　原文与译文同步　|　可导出课堂记录</p></header>
+<main class="wrap">
+<section class="card full">
+<div class="row"><div><div><span id="lamp" class="lamp"></span><strong id="status">准备开始</strong></div><div id="substatus" class="status">点“开始收音”并允许麦克风权限。请优先使用 Android Chrome 和 HTTPS 网页。</div></div><span id="engine" class="pill">检测语音引擎…</span></div>
+<div class="row" style="margin-top:13px"><button class="primary" id="start">🎙 开始收音</button><button class="stop" id="stop" disabled>■ 停止</button><button id="pauseSpeak">🔇 暂停播报</button></div>
+<p class="hint">快速模式会尝试翻译尚未结束的识别片段，随后用最终识别结果校正。中途结果可能被修订；浏览器、网络和翻译服务仍会带来延迟。</p>
+</section>
+<section class="card"><div class="title">老师当前说的话 · 英文</div><div id="live" class="live">等待语音输入……</div><div class="hint" style="margin-top:8px">这里显示临时识别文本；如果一直为空，代表浏览器没有收到语音或不支持语音识别。</div></section>
+<section class="card"><div class="title">最新翻译</div><div id="latestSource" class="source">等待英文内容……</div><div id="latestZh" class="translation" style="margin-top:9px">中文译文会显示在这里。</div><div class="row" style="margin-top:12px"><button id="speakLatest">🔊 朗读最新译文</button><button id="copyLatest">复制最新译文</button></div><div id="translateStatus" class="hint" style="margin-top:8px"></div></section>
+<section class="card"><div class="title">课堂设置</div><div class="grid2"><div><label for="lang">英语识别口音</label><select id="lang"><option value="en-US">英语（美国）</option><option value="en-GB">英语（英国）</option><option value="en-AU">英语（澳大利亚）</option></select></div><div><label for="rate">中文播报速度</label><select id="rate"><option value="1.12">较快</option><option value="1">正常</option><option value="0.88">较慢</option></select></div></div>
+<label class="check"><input id="autoSpeak" type="checkbox"> 自动朗读已确认译文（默认关闭，避免影响继续收音）</label><label class="check"><input id="saveOn" type="checkbox" checked> 自动保存课堂记录到本机浏览器</label>
+<div style="margin-top:10px"><label for="terms">术语表（每行一条：英文=中文）</label><textarea id="terms">GDP=国内生产总值
+NPV=净现值
+IRR=内部收益率
+rebalancing=再平衡
+vegetable=蔬菜
+fruit=水果
+seed=种子
+seeds=种子
+cash flow=现金流
+cost of capital=资本成本
+net present value=净现值
+internal rate of return=内部收益率</textarea></div></section>
+<section class="card"><div class="title">手动补译（语音识别不工作时备用）</div><textarea id="manual" placeholder="粘贴老师说的英文，点击翻译……"></textarea><div class="row" style="margin-top:8px"><button class="primary" id="manualTranslate">翻译这段</button><button id="manualSave">仅保存原文</button></div></section>
+<section class="card"><div class="title">课堂记录</div><div class="row"><button id="copyAll">复制全部记录</button><button id="download">导出 TXT</button><button id="clearRecords">清空记录</button></div><div id="records" style="margin-top:8px"><div class="empty">尚无课堂记录。</div></div></section>
+<div class="foot full">运行要求：麦克风必须由用户点击后授权；网页语音识别通常要求 HTTPS，并非所有浏览器都支持。此版本通过浏览器语音识别和在线翻译接口工作，不是独立的低延迟语音模型，也不保证每个词都能即时翻译。语音识别和翻译会向相应服务发送内容；请遵守课堂录音规定，不要处理未经许可的敏感内容。课堂记录保存在当前浏览器本地。</div>
+</main>
+<script>
+const $=id=>document.getElementById(id);const STORAGE='classroom-interpreter-v2-records';let recognition=null,active=false,paused=false,records=[],requestSeq=0,interimTimer=null,lastInterimSent='',lastFinal='',lastSpoken='',recognitionSupported=false;
+try{records=JSON.parse(localStorage.getItem(STORAGE)||'[]');if(!Array.isArray(records))records=[]}catch(e){records=[]}
+function status(title,sub,on=false){$('status').textContent=title;$('substatus').textContent=sub;$('lamp').classList.toggle('on',on)}
+function termPairs(){return $('terms').value.split(/\n/).map(s=>s.trim()).filter(Boolean).map(s=>{const i=s.indexOf('=');return i>0?[s.slice(0,i).trim(),s.slice(i+1).trim()]:null}).filter(Boolean).sort((a,b)=>b[0].length-a[0].length)}
+function terms(text){let out=text;for(const [en,zh] of termPairs()){out=out.replace(new RegExp(en.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),zh)}return out}
+function decode(s){const t=document.createElement('textarea');t.innerHTML=s;return t.value}
+function persist(){if(!$('saveOn').checked)return;try{localStorage.setItem(STORAGE,JSON.stringify(records))}catch(e){$('translateStatus').textContent='本机存储空间不足，无法保存全部记录。'}}
+function render(){const box=$('records');box.replaceChildren();if(!records.length){box.innerHTML='<div class="empty">尚无课堂记录。</div>';return}records.slice(-80).reverse().forEach((r)=>{const el=document.createElement('div');el.className='entry';const time=document.createElement('div');time.className='hint';time.textContent=r.time||'';const en=document.createElement('div');en.className='source';en.textContent=r.en;const zh=document.createElement('div');zh.className='translation';zh.textContent=r.zh||'（尚未翻译）';const b=document.createElement('button');b.textContent='复制本段';b.style.marginTop='7px';b.onclick=()=>copy(r.en+'\n'+(r.zh||''));el.append(time,en,zh,b);box.append(el)})}
+async function copy(s){try{await navigator.clipboard.writeText(s);$('translateStatus').textContent='已复制。'}catch(e){$('translateStatus').textContent='复制失败，请长按文本选择复制。'}}
+function speak(text){if(paused||!('speechSynthesis'in window)||!text)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='zh-CN';u.rate=Number($('rate').value)||1;speechSynthesis.speak(u)}
+function saveRecord(en,zh,partial=false){if(!$('saveOn').checked)return;const now=new Date().toLocaleTimeString();const existing=records.find(r=>r.en===en);if(existing){existing.zh=zh;existing.time=now;existing.partial=partial}else records.push({en,zh,time:now,partial});if(records.length>500)records=records.slice(-500);persist();render()}
+async function translate(en,{partial=false,record=true}={}){en=(en||'').trim();if(!en)return;const id=++requestSeq;$('latestSource').textContent=en;$('latestZh').textContent='正在翻译…';$('translateStatus').textContent=partial?'正在尝试翻译临时识别结果…':'正在翻译已识别短句…';try{const url='https://api.mymemory.translated.net/get?q='+encodeURIComponent(en.slice(0,480))+'&langpair=en|zh-CN';const response=await fetch(url);if(!response.ok)throw Error('翻译服务 HTTP '+response.status);const data=await response.json();let zh=data?.responseData?.translatedText;if(!zh)throw Error('服务没有返回译文');zh=terms(decode(zh));if(id!==requestSeq)return;$('latestSource').textContent=en;$('latestZh').textContent=zh;$('translateStatus').textContent=partial?'临时译文（可能随识别结果更新）':'已翻译';if(record&&!partial)saveRecord(en,zh);if(!partial&&$('autoSpeak').checked&&zh!==lastSpoken){lastSpoken=zh;speak(zh)}}catch(e){if(id!==requestSeq)return;$('latestZh').textContent='【翻译失败】请检查网络连接，或使用下方手动补译。';$('translateStatus').textContent='在线翻译服务暂不可用。';}}
+function initRecognition(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){$('engine').textContent='浏览器不支持语音识别';status('无法启动语音识别','请尝试最新版 Android Chrome，并使用 HTTPS 网站。');$('start').disabled=true;return}recognitionSupported=true;$('engine').textContent='已检测到浏览器语音引擎';recognition=new SR();recognition.continuous=true;recognition.interimResults=true;recognition.maxAlternatives=1;recognition.lang=$('lang').value;
+recognition.onstart=()=>{active=true;$('start').disabled=true;$('stop').disabled=false;status('正在收音','请把手机靠近老师；英文识别出来后会尽快尝试翻译。',true)};
+recognition.onresult=e=>{let interim='';const finals=[];for(let i=e.resultIndex;i<e.results.length;i++){const txt=e.results[i][0]?.transcript?.trim();if(!txt)continue;if(e.results[i].isFinal)finals.push(txt);else interim+=txt+' '}interim=interim.trim();$('live').textContent=interim||'等待下一段语音…';if(interim&&interim!==lastInterimSent){clearTimeout(interimTimer);interimTimer=setTimeout(()=>{if(active&&interim.length>=5&&interim!==lastInterimSent){lastInterimSent=interim;translate(interim,{partial:true,record:false})}},380)}
+for(const en of finals){const clean=en.trim();if(!clean||clean===lastFinal)continue;lastFinal=clean;clearTimeout(interimTimer);lastInterimSent='';translate(clean,{partial:false,record:true})}}
+recognition.onerror=e=>{const msgs={'not-allowed':'麦克风权限被拒绝，请在浏览器网站设置中允许麦克风。','service-not-allowed':'浏览器阻止了语音识别服务。','no-speech':'暂时没有检测到语音，请靠近老师并检查输入音量。','network':'语音识别服务网络错误，请检查网络。','audio-capture':'无法访问麦克风。','aborted':'语音识别已中断。'};status('收音遇到问题',msgs[e.error]||('语音识别错误：'+e.error),false)};
+recognition.onend=()=>{if(active){setTimeout(()=>{if(active){try{recognition.lang=$('lang').value;recognition.start()}catch(e){}}},180)}else{$('start').disabled=false;$('stop').disabled=true;status('已停止收音','点击“开始收音”可以继续。',false)}}}
+$('start').onclick=()=>{if(!recognition)initRecognition();if(!recognition)return;active=true;recognition.lang=$('lang').value;try{recognition.start()}catch(e){status('正在启动','如果没有开始，请稍等片刻后再点击。')}};
+$('stop').onclick=()=>{active=false;clearTimeout(interimTimer);if(recognition){try{recognition.stop()}catch(e){}}if('speechSynthesis'in window)speechSynthesis.cancel();$('start').disabled=false;$('stop').disabled=true;status('已停止收音','课堂记录已保留在本机浏览器（若自动保存开启）。',false)};
+$('pauseSpeak').onclick=()=>{paused=!paused;if(paused&&'speechSynthesis'in window)speechSynthesis.cancel();$('pauseSpeak').textContent=paused?'🔊 恢复播报':'🔇 暂停播报'};
+$('lang').onchange=()=>{if(recognition)recognition.lang=$('lang').value};$('speakLatest').onclick=()=>speak($('latestZh').textContent);$('copyLatest').onclick=()=>copy($('latestSource').textContent+'\n'+$('latestZh').textContent);
+$('manualTranslate').onclick=()=>translate($('manual').value,{partial:false,record:true});$('manualSave').onclick=()=>{const en=$('manual').value.trim();if(!en)return;saveRecord(en,'（仅保存原文）');$('translateStatus').textContent='原文已保存。'};
+$('copyAll').onclick=()=>copy(records.map((r,i)=>`第${i+1}段｜${r.time||''}\n英文：${r.en}\n中文：${r.zh||''}`).join('\n\n'));
+$('download').onclick=()=>{const body=records.map((r,i)=>`第${i+1}段｜${r.time||''}\n英文：${r.en}\n中文：${r.zh||''}`).join('\n\n');const blob=new Blob(['课堂同声传译记录\n\n'+body],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');const u=URL.createObjectURL(blob);a.href=u;a.download='课堂同声传译记录.txt';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)};
+$('clearRecords').onclick=()=>{if(confirm('确定清空本机保存的课堂记录吗？')){records=[];persist();render()}};
+render();initRecognition();
+</script></body></html>
